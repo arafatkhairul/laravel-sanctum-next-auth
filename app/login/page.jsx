@@ -1,12 +1,19 @@
 "use client"
 import React from 'react';
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
 
-const page = () => {
+const Login = () => {
+    const { data, status } = useSession();
+
+    if (status === 'authenticated') {
+        redirect('/');
+    }
 
     const handleLogin = async () => {
         const res = await signIn("credentials", {
-            redirect: false,
+            redirect: '/',
+            // callbackUrl: '/',
             phone_number: "01308008954",
             password: 12345678
         });
@@ -21,4 +28,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Login;

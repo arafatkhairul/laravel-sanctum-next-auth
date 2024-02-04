@@ -25,6 +25,10 @@ export const authOptions = {
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/login",
+
+    },
     callbacks: {
         async session({ session, token }) {
             session.token = token.access_token;
@@ -38,11 +42,11 @@ export const authOptions = {
 
                 if (authUser.ok) {
                     const user = await authUser.json();
-                    console.log(user);
                     session.user.id = user.id;
                     session.user.name = user.name;
                     session.user.phone_number = user.phone_number;
                     session.token = session.token;
+                    console.log(user);
                 }
             }
             return session
@@ -53,8 +57,6 @@ export const authOptions = {
             }
             return token;
         }
-
-
     }
 };
 
